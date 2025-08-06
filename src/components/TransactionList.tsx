@@ -63,7 +63,8 @@ export default function TransactionList({
 						{filterStats && (
 							<div className='text-right'>
 								<div className='text-sm text-gray-400'>
-									Показано {filterStats.filteredCount} из {filterStats.totalCount}
+									Показано {filterStats.filteredCount} из{' '}
+									{filterStats.totalCount}
 								</div>
 								{filterStats.hasFilters && (
 									<div className='text-xs text-blue-400'>

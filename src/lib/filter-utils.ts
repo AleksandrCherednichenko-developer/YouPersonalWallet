@@ -10,10 +10,11 @@ export function filterTransactions(
 		// Поиск по тексту
 		if (filters.search) {
 			const searchLower = filters.search.toLowerCase()
-			const matchesSearch = 
+			const matchesSearch =
 				transaction.category.toLowerCase().includes(searchLower) ||
-				(transaction.description && transaction.description.toLowerCase().includes(searchLower))
-			
+				(transaction.description &&
+					transaction.description.toLowerCase().includes(searchLower))
+
 			if (!matchesSearch) return false
 		}
 
@@ -94,7 +95,8 @@ export function getFilterStats(
 		totalCount,
 		filteredCount,
 		hasFilters,
-		percentage: totalCount > 0 ? Math.round((filteredCount / totalCount) * 100) : 0,
+		percentage:
+			totalCount > 0 ? Math.round((filteredCount / totalCount) * 100) : 0,
 	}
 }
 
@@ -105,4 +107,4 @@ export function applyFiltersAndSort(
 ): Transaction[] {
 	const filtered = filterTransactions(transactions, filters)
 	return sortTransactions(filtered, filters.sortBy, filters.sortOrder)
-} 
+}

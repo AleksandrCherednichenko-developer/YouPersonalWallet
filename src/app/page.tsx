@@ -4,7 +4,9 @@ import { useState, useMemo } from 'react'
 import Balance from '@/components/Balance'
 import TransactionForm from '@/components/TransactionForm'
 import TransactionList from '@/components/TransactionList'
-import TransactionFilters, { FilterOptions } from '@/components/TransactionFilters'
+import TransactionFilters, {
+	FilterOptions,
+} from '@/components/TransactionFilters'
 import LoadingState from '@/components/LoadingState'
 import ErrorState from '@/components/ErrorState'
 import EditTransactionModal from '@/components/EditTransactionModal'
@@ -12,17 +14,21 @@ import { ErrorBoundary } from '@/components/ErrorBoundary'
 import { useTransactions } from '@/hooks/useTransactions'
 import { api } from '@/services/api'
 import { Transaction } from '@/types/api'
-import { applyFiltersAndSort, getUniqueCategories, getFilterStats } from '@/lib/filter-utils'
+import {
+	applyFiltersAndSort,
+	getUniqueCategories,
+	getFilterStats,
+} from '@/lib/filter-utils'
 
 export default function Home() {
 	const { transactions, balance, isLoading, error, refreshData } =
 		useTransactions()
-	
+
 	const [editingTransaction, setEditingTransaction] =
 		useState<Transaction | null>(null)
 	const [isEditModalOpen, setIsEditModalOpen] = useState(false)
 	const [isActionLoading, setIsActionLoading] = useState(false)
-	
+
 	// Состояние фильтров
 	const [filters, setFilters] = useState<FilterOptions>({
 		search: '',
@@ -79,15 +85,18 @@ export default function Home() {
 	}
 
 	// Вычисляемые значения для фильтрации
-	const categories = useMemo(() => getUniqueCategories(transactions), [transactions])
-	
-	const filteredTransactions = useMemo(() => 
-		applyFiltersAndSort(transactions, filters), 
+	const categories = useMemo(
+		() => getUniqueCategories(transactions),
+		[transactions]
+	)
+
+	const filteredTransactions = useMemo(
+		() => applyFiltersAndSort(transactions, filters),
 		[transactions, filters]
 	)
-	
-	const filterStats = useMemo(() => 
-		getFilterStats(transactions, filteredTransactions), 
+
+	const filterStats = useMemo(
+		() => getFilterStats(transactions, filteredTransactions),
 		[transactions, filteredTransactions]
 	)
 

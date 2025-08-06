@@ -33,6 +33,18 @@ export default function TransactionFilters({
 		})
 	}
 
+	const handleSortChange = (value: string) => {
+		const [sortBy, sortOrder] = value.split('-') as [
+			'date' | 'amount' | 'category',
+			'asc' | 'desc'
+		]
+		onFiltersChange({
+			...filters,
+			sortBy,
+			sortOrder,
+		})
+	}
+
 	const clearFilters = () => {
 		onFiltersChange({
 			search: '',
@@ -45,7 +57,7 @@ export default function TransactionFilters({
 		})
 	}
 
-	const hasActiveFilters = 
+	const hasActiveFilters =
 		filters.search !== '' ||
 		filters.type !== 'all' ||
 		filters.category !== '' ||
@@ -140,11 +152,7 @@ export default function TransactionFilters({
 							</label>
 							<select
 								value={`${filters.sortBy}-${filters.sortOrder}`}
-								onChange={e => {
-									const [sortBy, sortOrder] = e.target.value.split('-') as ['date' | 'amount' | 'category', 'asc' | 'desc']
-									handleFilterChange('sortBy', sortBy)
-									handleFilterChange('sortOrder', sortOrder)
-								}}
+								onChange={e => handleSortChange(e.target.value)}
 								className={CSS_CLASSES.INPUT_FIELD}
 							>
 								<option value='date-desc'>Дата (новые)</option>
@@ -210,4 +218,4 @@ export default function TransactionFilters({
 			</div>
 		</div>
 	)
-} 
+}
