@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
+import ServiceWorkerRegistration from '@/components/ServiceWorkerRegistration'
 
 const geistSans = Geist({
 	variable: '--font-geist-sans',
@@ -18,6 +19,10 @@ export const metadata: Metadata = {
 	icons: {
 		icon: '/favicon.svg',
 	},
+	viewport:
+		'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no',
+	manifest: '/manifest.json',
+	themeColor: '#6366f1',
 }
 
 export default function RootLayout({
@@ -27,9 +32,13 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang='ru'>
+			<head>
+				<link rel='manifest' href='/manifest.json' />
+			</head>
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 			>
+				<ServiceWorkerRegistration />
 				{children}
 			</body>
 		</html>

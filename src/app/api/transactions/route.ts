@@ -9,13 +9,12 @@ import { validateTransaction, formatValidationErrors } from '@/lib/validation'
 // GET - получение всех транзакций
 export async function GET() {
 	try {
-		const transactions = await getTransactions()
-		const balance = await getBalance()
+		const [transactions, balance] = await Promise.all([
+			getTransactions(),
+			getBalance(),
+		])
 
-		return NextResponse.json({
-			transactions,
-			balance,
-		})
+		return NextResponse.json({ transactions, balance })
 	} catch (error) {
 		console.error('Error fetching transactions:', error)
 		return NextResponse.json(
@@ -51,7 +50,7 @@ export async function POST(request: NextRequest) {
 			)
 		}
 
-		const transactionId = await addTransaction({
+		await addTransaction({
 			type,
 			amount,
 			category,
@@ -60,15 +59,12 @@ export async function POST(request: NextRequest) {
 		})
 
 		// Получаем обновленные данные
-		const transactions = await getTransactions()
-		const balance = await getBalance()
+		const [transactions, balance] = await Promise.all([
+			getTransactions(),
+			getBalance(),
+		])
 
-		return NextResponse.json({
-			success: true,
-			transactionId,
-			transactions,
-			balance,
-		})
+		return NextResponse.json({ transactions, balance })
 	} catch (error) {
 		console.error('Error adding transaction:', error)
 		return NextResponse.json(

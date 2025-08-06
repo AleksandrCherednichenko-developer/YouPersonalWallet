@@ -69,11 +69,11 @@ export default function TransactionFilters({
 			<div className={CSS_CLASSES.GLASS_CARD}>
 				<div className='relative z-10'>
 					{/* Заголовок фильтров */}
-					<div className='flex items-center justify-between mb-6'>
-						<div className='flex items-center'>
-							<div className='w-12 h-12 bg-gradient-to-br from-blue-500 via-cyan-500 to-teal-500 rounded-2xl flex items-center justify-center mr-4 shadow-lg hover-lift neon-glow'>
+					<div className='flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 sm:mb-6'>
+						<div className='flex items-center mb-4 sm:mb-0'>
+							<div className='w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-blue-500 via-cyan-500 to-teal-500 rounded-xl sm:rounded-2xl flex items-center justify-center mr-3 sm:mr-4 shadow-lg hover-lift neon-glow'>
 								<svg
-									className='w-6 h-6 text-white'
+									className='w-5 h-5 sm:w-6 sm:h-6 text-white'
 									fill='none'
 									stroke='currentColor'
 									viewBox='0 0 24 24'
@@ -87,26 +87,26 @@ export default function TransactionFilters({
 								</svg>
 							</div>
 							<div>
-								<h3 className='text-xl font-bold text-white mb-1'>
+								<h3 className='text-lg sm:text-xl font-bold text-white mb-1'>
 									Фильтры и поиск
 								</h3>
-								<p className='text-gray-400 text-sm'>
+								<p className='text-gray-400 text-xs sm:text-sm'>
 									Найдите нужные транзакции
 								</p>
 							</div>
 						</div>
-						<div className='flex gap-2'>
+						<div className='flex gap-2 w-full sm:w-auto'>
 							{hasActiveFilters && (
 								<button
 									onClick={clearFilters}
-									className='px-3 py-1 bg-red-500/10 border border-red-500/30 text-red-400 rounded-lg text-sm hover:bg-red-500/20 transition-colors'
+									className='px-2 sm:px-3 py-1 bg-red-500/10 border border-red-500/30 text-red-400 rounded-lg text-xs sm:text-sm hover:bg-red-500/20 transition-colors flex-1 sm:flex-none'
 								>
 									Очистить
 								</button>
 							)}
 							<button
 								onClick={() => setIsExpanded(!isExpanded)}
-								className='px-3 py-1 bg-blue-500/10 border border-blue-500/30 text-blue-400 rounded-lg text-sm hover:bg-blue-500/20 transition-colors'
+								className='px-2 sm:px-3 py-1 bg-blue-500/10 border border-blue-500/30 text-blue-400 rounded-lg text-xs sm:text-sm hover:bg-blue-500/20 transition-colors flex-1 sm:flex-none'
 							>
 								{isExpanded ? 'Скрыть' : 'Показать'}
 							</button>
@@ -114,7 +114,7 @@ export default function TransactionFilters({
 					</div>
 
 					{/* Основные фильтры (всегда видны) */}
-					<div className='grid grid-cols-1 md:grid-cols-3 gap-4 mb-4'>
+					<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 mb-4'>
 						{/* Поиск */}
 						<div>
 							<label className='block text-sm font-medium text-gray-300 mb-2'>
@@ -146,7 +146,7 @@ export default function TransactionFilters({
 						</div>
 
 						{/* Сортировка */}
-						<div>
+						<div className='sm:col-span-2 lg:col-span-1'>
 							<label className='block text-sm font-medium text-gray-300 mb-2'>
 								Сортировка
 							</label>
@@ -167,7 +167,7 @@ export default function TransactionFilters({
 
 					{/* Дополнительные фильтры (скрыты по умолчанию) */}
 					{isExpanded && (
-						<div className='grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 border-t border-gray-700'>
+						<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 pt-4 border-t border-gray-700'>
 							{/* Категория */}
 							<div>
 								<label className='block text-sm font-medium text-gray-300 mb-2'>

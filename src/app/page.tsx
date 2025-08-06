@@ -105,8 +105,8 @@ export default function Home() {
 
 	return (
 		<ErrorBoundary>
-			<div className='min-h-screen bg-gradient-to-br from-[#0a0a1a] via-[#1a1a2e] to-[#0f0f23] p-8'>
-				<div className='container mx-auto flex flex-col gap-6'>
+			<div className='min-h-screen bg-gradient-to-br from-[#0a0a1a] via-[#1a1a2e] to-[#0f0f23] p-4 sm:p-6 md:p-8'>
+				<div className='container mx-auto flex flex-col gap-4 sm:gap-6'>
 					<AppHeader />
 					<Balance
 						income={balance.income}
@@ -144,9 +144,9 @@ export default function Home() {
 function AppHeader() {
 	return (
 		<div className='text-center'>
-			<div className='inline-flex items-center justify-center w-24 h-24 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 rounded-3xl mb-8 shadow-2xl shadow-purple-500/25'>
+			<div className='inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 rounded-2xl sm:rounded-3xl mb-4 sm:mb-6 md:mb-8 shadow-2xl shadow-purple-500/25'>
 				<svg
-					className='w-12 h-12 text-white'
+					className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 text-white'
 					fill='none'
 					stroke='currentColor'
 					viewBox='0 0 24 24'
@@ -159,8 +159,10 @@ function AppHeader() {
 					/>
 				</svg>
 			</div>
-			<h1 className='text-6xl font-bold mb-4 gradient-text'>Мой кошелек</h1>
-			<p className='text-gray-400 text-xl font-medium'>
+			<h1 className='text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-2 sm:mb-3 md:mb-4 gradient-text'>
+				Мой кошелек
+			</h1>
+			<p className='text-gray-400 text-base sm:text-lg md:text-xl font-medium px-4'>
 				Отслеживайте свои доходы и расходы
 			</p>
 		</div>

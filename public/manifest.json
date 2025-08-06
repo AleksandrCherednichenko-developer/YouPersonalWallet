@@ -1,0 +1,18 @@
+{
+	"name": "Мой кошелек - Отслеживание бюджета",
+	"short_name": "Мой кошелек",
+	"description": "Приложение для отслеживания доходов и расходов",
+	"start_url": "/",
+	"display": "standalone",
+	"background_color": "#0a0a1a",
+	"theme_color": "#6366f1",
+	"orientation": "portrait-primary",
+	"icons": [
+		{
+			"src": "/favicon.svg",
+			"sizes": "any",
+			"type": "image/svg+xml",
+			"purpose": "any maskable"
+		}
+	]
+}

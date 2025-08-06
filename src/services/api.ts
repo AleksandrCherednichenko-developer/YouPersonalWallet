@@ -1,4 +1,4 @@
-import { CreateTransactionRequest, TransactionsResponse } from '@/types/api'
+import { TransactionsResponse, Transaction } from '@/types/api'
 
 const API_BASE = '/api'
 
@@ -24,7 +24,7 @@ export const api = {
 	},
 
 	async createTransaction(
-		transaction: CreateTransactionRequest
+		transaction: Omit<Transaction, 'id' | 'created_at'>
 	): Promise<TransactionsResponse> {
 		return apiRequest<TransactionsResponse>('/transactions', {
 			method: 'POST',
@@ -34,7 +34,7 @@ export const api = {
 
 	async updateTransaction(
 		id: number,
-		transaction: CreateTransactionRequest
+		transaction: Omit<Transaction, 'id' | 'created_at'>
 	): Promise<TransactionsResponse> {
 		return apiRequest<TransactionsResponse>(`/transactions/${id}`, {
 			method: 'PUT',

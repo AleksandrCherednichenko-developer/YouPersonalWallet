@@ -24,22 +24,22 @@ const TransactionItem = memo(function TransactionItem({
 
 	return (
 		<div
-			className={`${bgColor} border ${borderColor} rounded-xl p-4 animate-slide-in`}
+			className={`${bgColor} border ${borderColor} rounded-xl p-3 sm:p-4 animate-slide-in`}
 		>
 			<div className='flex items-center justify-between'>
-				<div className='flex-1'>
-					<div className='flex items-center gap-3 mb-2'>
+				<div className='flex-1 min-w-0'>
+					<div className='flex items-center gap-2 sm:gap-3 mb-1 sm:mb-2'>
 						<div
-							className={`w-3 h-3 rounded-full ${
+							className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full flex-shrink-0 ${
 								isIncome ? 'bg-green-400' : 'bg-red-400'
 							}`}
 						/>
-						<h3 className='text-lg font-semibold text-white'>
+						<h3 className='text-base sm:text-lg font-semibold text-white truncate'>
 							{transaction.category}
 						</h3>
 					</div>
 					{transaction.description && (
-						<p className='text-gray-400 text-sm mb-2'>
+						<p className='text-gray-400 text-xs sm:text-sm mb-1 sm:mb-2 truncate'>
 							{transaction.description}
 						</p>
 					)}
@@ -47,13 +47,13 @@ const TransactionItem = memo(function TransactionItem({
 						{formatDate(transaction.date)}
 					</p>
 				</div>
-				<div className='text-right'>
-					<div className={`text-xl font-bold ${amountColor}`}>
+				<div className='text-right ml-2 sm:ml-4 flex-shrink-0'>
+					<div className={`text-lg sm:text-xl font-bold ${amountColor}`}>
 						{isIncome ? '+' : '-'}
 						{formatCurrency(transaction.amount)}
 					</div>
 					{(onEdit || onDelete) && (
-						<div className='flex gap-2 mt-2'>
+						<div className='flex gap-1 sm:gap-2 mt-1 sm:mt-2'>
 							{onEdit && (
 								<button
 									onClick={() => onEdit(transaction)}
@@ -62,7 +62,7 @@ const TransactionItem = memo(function TransactionItem({
 									title='Редактировать'
 								>
 									<svg
-										className='w-4 h-4'
+										className='w-3 h-3 sm:w-4 sm:h-4'
 										fill='none'
 										stroke='currentColor'
 										viewBox='0 0 24 24'
@@ -84,7 +84,7 @@ const TransactionItem = memo(function TransactionItem({
 									title='Удалить'
 								>
 									<svg
-										className='w-4 h-4'
+										className='w-3 h-3 sm:w-4 sm:h-4'
 										fill='none'
 										stroke='currentColor'
 										viewBox='0 0 24 24'

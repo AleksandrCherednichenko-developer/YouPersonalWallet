@@ -104,18 +104,18 @@ export default function EditTransactionModal({
 	if (!isOpen) return null
 
 	return (
-		<div className='fixed inset-0 bg-black/50 flex items-center justify-center z-50'>
-			<div className='bg-gray-900 rounded-2xl p-6 w-full max-w-md mx-4'>
-				<div className='flex items-center justify-between mb-6'>
-					<h2 className='text-2xl font-bold text-white'>
+		<div className='fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4'>
+			<div className='bg-gray-900 rounded-xl sm:rounded-2xl p-4 sm:p-6 w-full max-w-md mx-auto max-h-[90vh] overflow-y-auto'>
+				<div className='flex items-center justify-between mb-4 sm:mb-6'>
+					<h2 className='text-lg sm:text-xl md:text-2xl font-bold text-white'>
 						Редактировать транзакцию
 					</h2>
 					<button
 						onClick={onClose}
-						className='text-gray-400 hover:text-white transition-colors'
+						className='text-gray-400 hover:text-white transition-colors p-1'
 					>
 						<svg
-							className='w-6 h-6'
+							className='w-5 h-5 sm:w-6 sm:h-6'
 							fill='none'
 							stroke='currentColor'
 							viewBox='0 0 24 24'
@@ -140,8 +140,8 @@ export default function EditTransactionModal({
 					</div>
 				)}
 
-				<form onSubmit={handleSubmit} className='space-y-4'>
-					<div className='grid grid-cols-2 gap-4'>
+				<form onSubmit={handleSubmit} className='space-y-3 sm:space-y-4'>
+					<div className='grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4'>
 						<div>
 							<label className='block text-sm font-medium text-gray-300 mb-2'>
 								Тип
@@ -170,7 +170,7 @@ export default function EditTransactionModal({
 						</div>
 					</div>
 
-					<div className='grid grid-cols-2 gap-4'>
+					<div className='grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4'>
 						<div>
 							<label className='block text-sm font-medium text-gray-300 mb-2'>
 								Категория
@@ -210,18 +210,18 @@ export default function EditTransactionModal({
 						/>
 					</div>
 
-					<div className='flex gap-3 pt-4'>
+					<div className='flex flex-col sm:flex-row gap-3 pt-4'>
 						<button
 							type='button'
 							onClick={onClose}
-							className='flex-1 px-4 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-colors'
+							className='flex-1 px-4 py-2 sm:py-3 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-colors text-sm sm:text-base'
 						>
 							Отмена
 						</button>
 						<button
 							type='submit'
 							disabled={isLoading}
-							className='flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition-colors disabled:opacity-50'
+							className='flex-1 px-4 py-2 sm:py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition-colors disabled:opacity-50 text-sm sm:text-base'
 						>
 							{isLoading ? 'Сохранение...' : 'Сохранить'}
 						</button>

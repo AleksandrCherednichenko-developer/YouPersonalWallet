@@ -134,10 +134,10 @@ export default function TransactionForm({
 			<div className={CSS_CLASSES.GLASS_CARD}>
 				<div className='relative z-10'>
 					{/* Заголовок формы */}
-					<div className='flex items-center mb-10'>
-						<div className='w-16 h-16 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 rounded-3xl flex items-center justify-center mr-6 shadow-lg hover-lift neon-glow'>
+					<div className='flex flex-col sm:flex-row items-start sm:items-center mb-6 sm:mb-8 md:mb-10'>
+						<div className='w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 rounded-2xl sm:rounded-3xl flex items-center justify-center mb-4 sm:mb-0 sm:mr-4 md:mr-6 shadow-lg hover-lift neon-glow'>
 							<svg
-								className='w-8 h-8 text-white'
+								className='w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-white'
 								fill='none'
 								stroke='currentColor'
 								viewBox='0 0 24 24'
@@ -151,10 +151,10 @@ export default function TransactionForm({
 							</svg>
 						</div>
 						<div>
-							<h2 className='text-3xl font-bold text-white mb-2'>
+							<h2 className='text-xl sm:text-2xl md:text-3xl font-bold text-white mb-1 sm:mb-2'>
 								Добавить транзакцию
 							</h2>
-							<p className='text-gray-400 text-lg'>
+							<p className='text-gray-400 text-sm sm:text-base md:text-lg'>
 								Создайте новую запись о доходах или расходах
 							</p>
 						</div>
@@ -162,7 +162,7 @@ export default function TransactionForm({
 
 					{/* Ошибки */}
 					{errors.length > 0 && (
-						<div className='mb-6 p-4 bg-red-500/10 border border-red-500/30 rounded-xl'>
+						<div className='mb-4 sm:mb-6 p-3 sm:p-4 bg-red-500/10 border border-red-500/30 rounded-xl'>
 							{errors.map((error, index) => (
 								<p key={index} className='text-red-400 text-sm'>
 									{error.message}
@@ -172,8 +172,8 @@ export default function TransactionForm({
 					)}
 
 					{/* Форма */}
-					<form onSubmit={handleSubmit} className='space-y-6'>
-						<div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+					<form onSubmit={handleSubmit} className='space-y-4 sm:space-y-6'>
+						<div className='grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6'>
 							{/* Тип транзакции */}
 							<div>
 								<label className='block text-sm font-medium text-gray-300 mb-2'>
@@ -211,7 +211,7 @@ export default function TransactionForm({
 							</div>
 						</div>
 
-						<div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+						<div className='grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6'>
 							{/* Категория */}
 							<div>
 								<label className='block text-sm font-medium text-gray-300 mb-2'>

@@ -97,39 +97,3 @@ export async function deleteTransaction(id: number) {
 
 	return true
 }
-
-// Функции для работы с категориями
-export async function getCategories() {
-	const { data, error } = await supabase
-		.from('categories')
-		.select('*')
-		.order('name')
-
-	if (error) {
-		throw new Error(`Failed to fetch categories: ${error.message}`)
-	}
-
-	return data || []
-}
-
-export async function addCategory(category: {
-	name: string
-	type: 'income' | 'expense'
-	color?: string
-}) {
-	const { data, error } = await supabase
-		.from('categories')
-		.insert({
-			name: category.name,
-			type: category.type,
-			color: category.color || '#3B82F6',
-		})
-		.select()
-		.single()
-
-	if (error) {
-		throw new Error(`Failed to add category: ${error.message}`)
-	}
-
-	return data
-}

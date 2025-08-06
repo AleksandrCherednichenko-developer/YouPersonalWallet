@@ -23,25 +23,15 @@ export async function DELETE(
 			)
 		}
 
-		const success = await deleteTransaction(transactionId)
-
-		if (!success) {
-			return NextResponse.json(
-				{ error: 'Transaction not found' },
-				{ status: 404 }
-			)
-		}
+		await deleteTransaction(transactionId)
 
 		// Получаем обновленные данные
-		const transactions = await getTransactions()
-		const balance = await getBalance()
+		const [transactions, balance] = await Promise.all([
+			getTransactions(),
+			getBalance(),
+		])
 
-		return NextResponse.json({
-			success: true,
-			message: 'Transaction deleted successfully',
-			transactions,
-			balance,
-		})
+		return NextResponse.json({ transactions, balance })
 	} catch (error) {
 		console.error('Error deleting transaction:', error)
 		return NextResponse.json(
@@ -90,7 +80,7 @@ export async function PUT(
 			)
 		}
 
-		const updatedTransaction = await updateTransaction(transactionId, {
+		await updateTransaction(transactionId, {
 			type,
 			amount,
 			category,
@@ -99,16 +89,12 @@ export async function PUT(
 		})
 
 		// Получаем обновленные данные
-		const transactions = await getTransactions()
-		const balance = await getBalance()
+		const [transactions, balance] = await Promise.all([
+			getTransactions(),
+			getBalance(),
+		])
 
-		return NextResponse.json({
-			success: true,
-			message: 'Transaction updated successfully',
-			transaction: updatedTransaction,
-			transactions,
-			balance,
-		})
+		return NextResponse.json({ transactions, balance })
 	} catch (error) {
 		console.error('Error updating transaction:', error)
 		return NextResponse.json(

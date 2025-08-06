@@ -9,14 +9,6 @@ export interface Transaction {
 	created_at?: string
 }
 
-export interface CreateTransactionRequest {
-	type: 'income' | 'expense'
-	amount: number
-	category: string
-	description?: string
-	date?: string
-}
-
 export interface BalanceData {
 	income: number
 	expense: number
@@ -28,12 +20,7 @@ export interface TransactionsResponse {
 	balance: BalanceData
 }
 
-// Валидация типы
-export interface ValidationResult {
-	isValid: boolean
-	errors: string[]
-}
-
+// Форма данных
 export interface FormData {
 	type: 'income' | 'expense'
 	amount: string

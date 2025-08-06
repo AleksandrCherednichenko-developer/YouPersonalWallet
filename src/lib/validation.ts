@@ -1,4 +1,4 @@
-import { CreateTransactionRequest } from '@/types/api'
+import { Transaction } from '@/types/api'
 
 export interface ValidationError {
 	field: string
@@ -10,26 +10,6 @@ export interface ValidationResult {
 	errors: ValidationError[]
 }
 
-// Валидация типа транзакции
-export function validateTransactionType(type: unknown): ValidationError | null {
-	if (!type) {
-		return { field: 'type', message: 'Тип транзакции обязателен' }
-	}
-
-	if (typeof type !== 'string') {
-		return { field: 'type', message: 'Тип транзакции должен быть строкой' }
-	}
-
-	if (!['income', 'expense'].includes(type)) {
-		return {
-			field: 'type',
-			message: 'Тип транзакции должен быть "income" или "expense"',
-		}
-	}
-
-	return null
-}
-
 // Валидация суммы
 export function validateAmount(amount: unknown): ValidationError | null {
 	if (amount === undefined || amount === null) {
@@ -38,11 +18,7 @@ export function validateAmount(amount: unknown): ValidationError | null {
 
 	const numAmount = Number(amount)
 
-	if (isNaN(numAmount)) {
-		return { field: 'amount', message: 'Сумма должна быть числом' }
-	}
-
-	if (numAmount <= 0) {
+	if (isNaN(numAmount) || numAmount <= 0) {
 		return { field: 'amount', message: 'Сумма должна быть больше нуля' }
 	}
 
@@ -55,16 +31,12 @@ export function validateAmount(amount: unknown): ValidationError | null {
 
 // Валидация категории
 export function validateCategory(category: unknown): ValidationError | null {
-	if (!category) {
+	if (
+		!category ||
+		typeof category !== 'string' ||
+		category.trim().length === 0
+	) {
 		return { field: 'category', message: 'Категория обязательна' }
-	}
-
-	if (typeof category !== 'string') {
-		return { field: 'category', message: 'Категория должна быть строкой' }
-	}
-
-	if (category.trim().length === 0) {
-		return { field: 'category', message: 'Категория не может быть пустой' }
 	}
 
 	if (category.length > 100) {
@@ -134,14 +106,11 @@ export function validateDate(date: unknown): ValidationError | null {
 
 // Основная функция валидации транзакции
 export function validateTransaction(
-	data: CreateTransactionRequest
+	data: Omit<Transaction, 'id' | 'created_at'>
 ): ValidationResult {
 	const errors: ValidationError[] = []
 
 	// Валидируем каждое поле
-	const typeError = validateTransactionType(data.type)
-	if (typeError) errors.push(typeError)
-
 	const amountError = validateAmount(data.amount)
 	if (amountError) errors.push(amountError)
 
