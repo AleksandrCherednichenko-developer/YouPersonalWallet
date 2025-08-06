@@ -1,7 +1,6 @@
 'use client'
 
 import { formatCurrency } from '@/lib/utils'
-import { CSS_CLASSES } from '@/lib/constants'
 
 interface BalanceProps {
 	income: number

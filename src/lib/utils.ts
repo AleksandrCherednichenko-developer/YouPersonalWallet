@@ -16,7 +16,9 @@ export const validateTransaction = (data: FormData): ValidationResult => {
 
 	if (
 		!data.type ||
-		!Object.values(TRANSACTION_TYPES).includes(data.type as any)
+		!Object.values(TRANSACTION_TYPES).includes(
+			data.type as 'income' | 'expense'
+		)
 	) {
 		errors.push(ERROR_MESSAGES.REQUIRED_FIELDS)
 	}
@@ -37,7 +39,10 @@ export const validateTransaction = (data: FormData): ValidationResult => {
 
 // Утилиты для работы с датами
 export const getCurrentDate = (): string => {
-	return new Date().toISOString().split('T')[0]
+	return (
+		new Date().toISOString().split('T')[0] ||
+		new Date().toISOString().slice(0, 10)
+	)
 }
 
 // Утилиты для обработки ошибок

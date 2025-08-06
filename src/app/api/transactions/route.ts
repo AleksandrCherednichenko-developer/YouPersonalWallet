@@ -1,11 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getTransactions, addTransaction, getBalance } from '@/lib/database'
+import {
+	getTransactions,
+	addTransaction,
+	getBalance,
+} from '@/lib/database-supabase'
+import { validateTransaction, formatValidationErrors } from '@/lib/validation'
 
 // GET - получение всех транзакций
 export async function GET() {
 	try {
-		const transactions = getTransactions()
-		const balance = getBalance()
+		const transactions = await getTransactions()
+		const balance = await getBalance()
 
 		return NextResponse.json({
 			transactions,
@@ -26,15 +31,27 @@ export async function POST(request: NextRequest) {
 		const body = await request.json()
 		const { type, amount, category, description, date } = body
 
-		// Базовая валидация
-		if (!type || !amount || !category) {
+		// Валидация данных
+		const validation = validateTransaction({
+			type,
+			amount,
+			category,
+			description,
+			date,
+		})
+
+		if (!validation.isValid) {
 			return NextResponse.json(
-				{ error: 'Missing required fields' },
+				{
+					error: 'Validation failed',
+					details: validation.errors,
+					message: formatValidationErrors(validation.errors),
+				},
 				{ status: 400 }
 			)
 		}
 
-		const transactionId = addTransaction({
+		const transactionId = await addTransaction({
 			type,
 			amount,
 			category,
@@ -43,8 +60,8 @@ export async function POST(request: NextRequest) {
 		})
 
 		// Получаем обновленные данные
-		const transactions = getTransactions()
-		const balance = getBalance()
+		const transactions = await getTransactions()
+		const balance = await getBalance()
 
 		return NextResponse.json({
 			success: true,
