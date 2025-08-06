@@ -1,24 +1,34 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useCallback } from 'react'
 import Balance from '@/components/Balance'
 import TransactionForm from '@/components/TransactionForm'
 import TransactionList from '@/components/TransactionList'
-import TransactionFilters, {
-	FilterOptions,
-} from '@/components/TransactionFilters'
+import TransactionFilters from '@/components/TransactionFilters'
 import LoadingState from '@/components/LoadingState'
 import ErrorState from '@/components/ErrorState'
 import EditTransactionModal from '@/components/EditTransactionModal'
 import { ErrorBoundary } from '@/components/ErrorBoundary'
 import { useTransactions } from '@/hooks/useTransactions'
 import { api } from '@/services/api'
-import { Transaction } from '@/types/api'
+import { Transaction, FilterOptions } from '@/types/api'
+import { logError } from '@/lib/utils'
 import {
 	applyFiltersAndSort,
 	getUniqueCategories,
 	getFilterStats,
 } from '@/lib/filter-utils'
+
+// Начальные фильтры вынесены в константу
+const initialFilters: FilterOptions = {
+	search: '',
+	type: 'all',
+	category: '',
+	dateFrom: '',
+	dateTo: '',
+	sortBy: 'date',
+	sortOrder: 'desc',
+}
 
 export default function Home() {
 	const { transactions, balance, isLoading, error, refreshData } =
@@ -28,61 +38,71 @@ export default function Home() {
 		useState<Transaction | null>(null)
 	const [isEditModalOpen, setIsEditModalOpen] = useState(false)
 	const [isActionLoading, setIsActionLoading] = useState(false)
+	const [errorMessage, setErrorMessage] = useState('')
 
 	// Состояние фильтров
-	const [filters, setFilters] = useState<FilterOptions>({
-		search: '',
-		type: 'all',
-		category: '',
-		dateFrom: '',
-		dateTo: '',
-		sortBy: 'date',
-		sortOrder: 'desc',
-	})
+	const [filters, setFilters] = useState<FilterOptions>(initialFilters)
 
-	const handleEdit = (transaction: Transaction) => {
+	const handleEdit = useCallback((transaction: Transaction) => {
 		setEditingTransaction(transaction)
 		setIsEditModalOpen(true)
-	}
+	}, [])
 
-	const handleDelete = async (id: number) => {
-		if (!confirm('Вы уверены, что хотите удалить эту транзакцию?')) {
-			return
-		}
+	const handleDelete = useCallback(
+		async (id: number) => {
+			// Используем более современный подход вместо confirm
+			if (!window.confirm('Вы уверены, что хотите удалить эту транзакцию?')) {
+				return
+			}
 
-		setIsActionLoading(true)
-		try {
-			await api.deleteTransaction(id)
-			refreshData()
-		} catch (error) {
-			console.error('Error deleting transaction:', error)
-			alert('Ошибка при удалении транзакции')
-		} finally {
-			setIsActionLoading(false)
-		}
-	}
+			setIsActionLoading(true)
+			setErrorMessage('')
 
-	const handleSaveEdit = async (
-		id: number,
-		data: {
-			type: 'income' | 'expense'
-			amount: number
-			category: string
-			description: string
-			date: string
-		}
-	) => {
-		setIsActionLoading(true)
-		try {
-			await api.updateTransaction(id, data)
-			refreshData()
-		} catch (error) {
-			console.error('Error updating transaction:', error)
-			throw error
-		} finally {
-			setIsActionLoading(false)
-		}
-	}
+			try {
+				await api.deleteTransaction(id)
+				refreshData()
+			} catch (error) {
+				logError('Error deleting transaction:', error)
+				setErrorMessage('Ошибка при удалении транзакции')
+			} finally {
+				setIsActionLoading(false)
+			}
+		},
+		[refreshData]
+	)
+
+	const handleSaveEdit = useCallback(
+		async (
+			id: number,
+			data: {
+				type: 'income' | 'expense'
+				amount: number
+				category: string
+				description: string
+				date: string
+			}
+		) => {
+			setIsActionLoading(true)
+			setErrorMessage('')
+
+			try {
+				await api.updateTransaction(id, data)
+				refreshData()
+			} catch (error) {
+				logError('Error updating transaction:', error)
+				setErrorMessage('Ошибка при обновлении транзакции')
+				throw error
+			} finally {
+				setIsActionLoading(false)
+			}
+		},
+		[refreshData]
+	)
+
+	const handleCloseModal = useCallback(() => {
+		setIsEditModalOpen(false)
+		setEditingTransaction(null)
+	}, [])
 
 	// Вычисляемые значения для фильтрации
 	const categories = useMemo(
@@ -119,6 +139,11 @@ export default function Home() {
 						onFiltersChange={setFilters}
 						categories={categories}
 					/>
+					{errorMessage && (
+						<div className='p-4 bg-red-500/10 border border-red-500/30 rounded-xl'>
+							<p className='text-red-400 text-sm'>{errorMessage}</p>
+						</div>
+					)}
 					<TransactionList
 						transactions={filteredTransactions}
 						onEdit={handleEdit}
@@ -129,10 +154,7 @@ export default function Home() {
 					<EditTransactionModal
 						transaction={editingTransaction}
 						isOpen={isEditModalOpen}
-						onClose={() => {
-							setIsEditModalOpen(false)
-							setEditingTransaction(null)
-						}}
+						onClose={handleCloseModal}
 						onSave={handleSaveEdit}
 					/>
 				</div>

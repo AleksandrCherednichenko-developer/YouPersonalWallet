@@ -23,6 +23,14 @@ export const handleApiError = (error: unknown): string => {
 	return 'Произошла ошибка при обращении к серверу'
 }
 
+// Безопасное логирование ошибок
+export const logError = (message: string, error?: unknown): void => {
+	if (process.env.NODE_ENV === 'development') {
+		console.error(message, error)
+	}
+	// В продакшене можно добавить отправку в сервис мониторинга
+}
+
 // Утилиты для форматирования дат
 export const formatDate = (dateString: string): string => {
 	const date = new Date(dateString)

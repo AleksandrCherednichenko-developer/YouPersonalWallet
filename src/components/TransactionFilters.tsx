@@ -2,16 +2,7 @@
 
 import { useState } from 'react'
 import { CSS_CLASSES } from '@/lib/constants'
-
-export interface FilterOptions {
-	search: string
-	type: 'all' | 'income' | 'expense'
-	category: string
-	dateFrom: string
-	dateTo: string
-	sortBy: 'date' | 'amount' | 'category'
-	sortOrder: 'asc' | 'desc'
-}
+import { FilterOptions } from '@/types/api'
 
 interface TransactionFiltersProps {
 	filters: FilterOptions

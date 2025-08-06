@@ -1,5 +1,4 @@
-import { Transaction } from '@/types/api'
-import { FilterOptions } from '@/components/TransactionFilters'
+import { Transaction, FilterOptions } from '@/types/api'
 
 // Функция для фильтрации транзакций
 export function filterTransactions(
