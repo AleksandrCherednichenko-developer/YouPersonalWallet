@@ -50,7 +50,6 @@ export default function Home() {
 
 	const handleDelete = useCallback(
 		async (id: number) => {
-			// Используем более современный подход вместо confirm
 			if (!window.confirm('Вы уверены, что хотите удалить эту транзакцию?')) {
 				return
 			}
