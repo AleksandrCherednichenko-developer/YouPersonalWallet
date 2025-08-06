@@ -31,4 +31,20 @@ export const api = {
 			body: JSON.stringify(transaction),
 		})
 	},
+
+	async updateTransaction(
+		id: number,
+		transaction: CreateTransactionRequest
+	): Promise<TransactionsResponse> {
+		return apiRequest<TransactionsResponse>(`/transactions/${id}`, {
+			method: 'PUT',
+			body: JSON.stringify(transaction),
+		})
+	},
+
+	async deleteTransaction(id: number): Promise<TransactionsResponse> {
+		return apiRequest<TransactionsResponse>(`/transactions/${id}`, {
+			method: 'DELETE',
+		})
+	},
 }

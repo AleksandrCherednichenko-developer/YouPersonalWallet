@@ -1,16 +1,69 @@
 'use client'
 
+import { useState } from 'react'
 import Balance from '@/components/Balance'
 import TransactionForm from '@/components/TransactionForm'
 import TransactionList from '@/components/TransactionList'
 import LoadingState from '@/components/LoadingState'
 import ErrorState from '@/components/ErrorState'
+import EditTransactionModal from '@/components/EditTransactionModal'
 import { ErrorBoundary } from '@/components/ErrorBoundary'
 import { useTransactions } from '@/hooks/useTransactions'
+import { api } from '@/services/api'
+import { Transaction } from '@/types/api'
 
 export default function Home() {
 	const { transactions, balance, isLoading, error, refreshData } =
 		useTransactions()
+
+	const [editingTransaction, setEditingTransaction] =
+		useState<Transaction | null>(null)
+	const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+	const [isActionLoading, setIsActionLoading] = useState(false)
+
+	const handleEdit = (transaction: Transaction) => {
+		setEditingTransaction(transaction)
+		setIsEditModalOpen(true)
+	}
+
+	const handleDelete = async (id: number) => {
+		if (!confirm('Вы уверены, что хотите удалить эту транзакцию?')) {
+			return
+		}
+
+		setIsActionLoading(true)
+		try {
+			await api.deleteTransaction(id)
+			refreshData()
+		} catch (error) {
+			console.error('Error deleting transaction:', error)
+			alert('Ошибка при удалении транзакции')
+		} finally {
+			setIsActionLoading(false)
+		}
+	}
+
+	const handleSaveEdit = async (
+		id: number,
+		data: {
+			type: 'income' | 'expense'
+			amount: number
+			category: string
+			description: string
+			date: string
+		}
+	) => {
+		setIsActionLoading(true)
+		try {
+			await api.updateTransaction(id, data)
+			refreshData()
+		} catch (error) {
+			console.error('Error updating transaction:', error)
+			throw error
+		} finally {
+			setIsActionLoading(false)
+		}
+	}
 
 	if (isLoading) return <LoadingState />
 	if (error) return <ErrorState message={error} />
@@ -26,7 +79,21 @@ export default function Home() {
 						balance={balance.balance}
 					/>
 					<TransactionForm onTransactionAdded={refreshData} />
-					<TransactionList transactions={transactions} />
+					<TransactionList
+						transactions={transactions}
+						onEdit={handleEdit}
+						onDelete={handleDelete}
+						isLoading={isActionLoading}
+					/>
+					<EditTransactionModal
+						transaction={editingTransaction}
+						isOpen={isEditModalOpen}
+						onClose={() => {
+							setIsEditModalOpen(false)
+							setEditingTransaction(null)
+						}}
+						onSave={handleSaveEdit}
+					/>
 				</div>
 			</div>
 		</ErrorBoundary>

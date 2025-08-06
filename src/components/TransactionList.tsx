@@ -7,10 +7,16 @@ import { CSS_CLASSES } from '@/lib/constants'
 
 interface TransactionListProps {
 	transactions: Transaction[]
+	onEdit?: (transaction: Transaction) => void
+	onDelete?: (id: number) => void
+	isLoading?: boolean
 }
 
 export default function TransactionList({
 	transactions,
+	onEdit,
+	onDelete,
+	isLoading = false,
 }: TransactionListProps) {
 	if (transactions.length === 0) {
 		return <EmptyState />
@@ -50,7 +56,13 @@ export default function TransactionList({
 					{/* Список транзакций */}
 					<div className='space-y-4'>
 						{transactions.map(transaction => (
-							<TransactionItem key={transaction.id} transaction={transaction} />
+							<TransactionItem
+								key={transaction.id}
+								transaction={transaction}
+								onEdit={onEdit || undefined}
+								onDelete={onDelete || undefined}
+								isLoading={isLoading}
+							/>
 						))}
 					</div>
 				</div>
