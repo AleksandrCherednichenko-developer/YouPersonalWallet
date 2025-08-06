@@ -128,7 +128,7 @@ export default function TransactionFilters({
 							<select
 								value={filters.type}
 								onChange={e => handleFilterChange('type', e.target.value)}
-								className={CSS_CLASSES.INPUT_FIELD}
+								className={CSS_CLASSES.SELECT_FIELD}
 							>
 								<option value='all'>Все</option>
 								<option value='income'>Доходы</option>
@@ -144,7 +144,7 @@ export default function TransactionFilters({
 							<select
 								value={`${filters.sortBy}-${filters.sortOrder}`}
 								onChange={e => handleSortChange(e.target.value)}
-								className={CSS_CLASSES.INPUT_FIELD}
+								className={CSS_CLASSES.SELECT_FIELD}
 							>
 								<option value='date-desc'>Дата (новые)</option>
 								<option value='date-asc'>Дата (старые)</option>
@@ -167,7 +167,7 @@ export default function TransactionFilters({
 								<select
 									value={filters.category}
 									onChange={e => handleFilterChange('category', e.target.value)}
-									className={CSS_CLASSES.INPUT_FIELD}
+									className={CSS_CLASSES.SELECT_FIELD}
 								>
 									<option value=''>Все категории</option>
 									{categories.map(category => (

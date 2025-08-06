@@ -182,7 +182,7 @@ export default function TransactionForm({
 								<select
 									value={formData.type}
 									onChange={e => handleInputChange('type', e.target.value)}
-									className={CSS_CLASSES.INPUT_FIELD}
+									className={CSS_CLASSES.SELECT_FIELD}
 								>
 									<option value={TRANSACTION_TYPES.EXPENSE}>Расход</option>
 									<option value={TRANSACTION_TYPES.INCOME}>Доход</option>
