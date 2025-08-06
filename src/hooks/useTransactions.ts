@@ -24,7 +24,10 @@ export function useTransactions() {
 
 			const dataPromise = api.getAppData()
 
-			const data = (await Promise.race([dataPromise, timeoutPromise])) as { transactions: Transaction[]; balance: BalanceData }
+			const data = (await Promise.race([dataPromise, timeoutPromise])) as {
+				transactions: Transaction[]
+				balance: BalanceData
+			}
 			setTransactions(data.transactions)
 			setBalance(data.balance)
 		} catch (error) {
