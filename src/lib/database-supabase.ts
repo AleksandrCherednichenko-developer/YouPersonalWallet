@@ -112,8 +112,8 @@ export async function getBalance(): Promise<BalanceData> {
 		throw new Error(`Failed to fetch expenses: ${expenseError.message}`)
 	}
 
-	const income = incomeData?.reduce((sum, item) => sum + item.amount, 0) || 0
-	const expense = expenseData?.reduce((sum, item) => sum + item.amount, 0) || 0
+	const income = incomeData?.reduce((sum: number, item: { amount: number }) => sum + item.amount, 0) || 0
+	const expense = expenseData?.reduce((sum: number, item: { amount: number }) => sum + item.amount, 0) || 0
 
 	return {
 		income,

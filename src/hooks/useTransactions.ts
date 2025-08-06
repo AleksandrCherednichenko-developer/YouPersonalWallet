@@ -12,7 +12,7 @@ export function useTransactions() {
 	const [isLoading, setIsLoading] = useState(true)
 	const [error, setError] = useState('')
 
-	const fetchData = useCallback(async (forceRefresh = false) => {
+	const fetchData = useCallback(async () => {
 		try {
 			setIsLoading(true)
 			setError('')
@@ -24,7 +24,7 @@ export function useTransactions() {
 
 			const dataPromise = api.getAppData()
 
-			const data = (await Promise.race([dataPromise, timeoutPromise])) as any
+			const data = (await Promise.race([dataPromise, timeoutPromise])) as { transactions: Transaction[]; balance: BalanceData }
 			setTransactions(data.transactions)
 			setBalance(data.balance)
 		} catch (error) {
@@ -62,7 +62,7 @@ export function useTransactions() {
 	}, [])
 
 	const refreshData = useCallback(() => {
-		fetchData(true)
+		fetchData()
 	}, [fetchData])
 
 	useEffect(() => {
